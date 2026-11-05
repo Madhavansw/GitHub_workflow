@@ -1,0 +1,27 @@
+
+name: React Deployment Reusable Workflow
+
+on:
+  workflow_call:
+    inputs:
+      config_key:
+        required: true
+        type: string
+
+      environment:
+        required: true
+        type: string
+
+jobs:
+  deploy:
+    name: Deploy React - ${{ inputs.environment }}
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
